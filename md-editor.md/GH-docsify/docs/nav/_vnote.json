@@ -1,0 +1,44 @@
+{
+    "created_time": "2019-08-18T10:56:32Z",
+    "files": [
+        {
+            "attachment_folder": "",
+            "attachments": [
+            ],
+            "created_time": "2019-08-18T10:56:32Z",
+            "modified_time": "2019-08-18T10:56:32Z",
+            "name": "nav002-软件收藏.md",
+            "tags": [
+            ]
+        },
+        {
+            "attachment_folder": "",
+            "attachments": [
+            ],
+            "created_time": "2019-08-18T10:56:32Z",
+            "modified_time": "2019-08-18T10:56:32Z",
+            "name": "nav003-视频收藏.md",
+            "tags": [
+            ]
+        },
+        {
+            "attachment_folder": "",
+            "attachments": [
+            ],
+            "created_time": "2019-08-18T10:56:32Z",
+            "modified_time": "2019-08-18T10:56:32Z",
+            "name": "转换编辑工具.md",
+            "tags": [
+            ]
+        }
+    ],
+    "sub_directories": [
+        {
+            "name": "md-editor.md"
+        },
+        {
+            "name": "tree-note"
+        }
+    ],
+    "version": "1"
+}
