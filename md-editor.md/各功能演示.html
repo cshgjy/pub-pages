@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh">
+   
+   <head>
+        <meta charset="utf-8" />
+        <title>markdownDemo</title>
+		<!--引入样式文件-->
+        <link rel="stylesheet" href="editor.md-master/examples/css/style.css" />
+        <link rel="stylesheet" href="editor.md-master/css/editormd.css" /> 
+		<!--引入js文件-->
+        <script src="editor.md-master/examples/js/jquery.min.js"></script>
+        <script src="editor.md-master/editormd.js"></script>      
+    </head>
+	
+    <body>
+	
+        <div>
+		
+            <header>
+                <h1>案例演示</h1>         
+            </header>
+			
+            <div class="btns">
+                <button id="goto-line-btn">定位到第90行</button>
+                <button id="show-btn">显示编辑器</button>
+                <button id="hide-btn">隐藏编辑器</button>
+                <button id="get-md-btn">获取Markdown内容</button>
+                <button id="get-html-btn">获取HTML内容</button>
+                <button id="watch-btn">显示在线预览</button>
+                <button id="unwatch-btn">隐藏在线预览</button>
+                <button id="preview-btn">预览HTML（按Shift + ESC取消）</button>
+                <button id="fullscreen-btn">全屏（按ESC取消）</button>
+                <button id="show-toolbar-btn">显示工具栏</button>
+                <button id="close-toolbar-btn">隐藏工具栏</button>
+                <button id="toc-menu-btn">ToC Dropdown menu</button>
+                <button id="toc-default-btn">ToC default</button>
+            </div>
+			
+			<!--用来初始化编辑器的容器-->
+            <div id="test-editormd"></div>
+			
+        </div>
+
+        
+		<!--写一个隐藏的div,存放需要初始化的内容,用作假设后台传回的数据演示-->
+		<div id="dateDemo" style="display:none;">
+    hadoop命令需在hadoop目录下使用
+**常用命令**
+    
+    HDFS格式化:
+    bin/hadoop namenode -format    格式化namenode
+    bin/hadoop datanode -format    格式化datanode
+    
+    *如不是第一次格式化，为了保证clusterID一致性,
+    *需先删除hdfs临时目录,
+    *即在配置文件中配置的hadoop.tmp.dir参数路径
+		
+
+`图片展示1`
+[![这里是描述](http://pic41.nipic.com/20140529/18243620_101015342117_2.gif "这里是描述")](这里是链接地址 "这里是描述")
+
+[========]
+图片展示2
+![](http://pic41.nipic.com/20140529/18243620_101015342117_2.gif)
+	</div>
+	
+	
+		
+		<script type="text/javascript">
+			var testEditor;//用来保存实例化的编辑器对象
+			
+            $(function() {
+                
+				//====================实例化化编辑器开始====================
+				//该get方法是jquery的,需要请求后台返回test.md的文件内容
+				//为了方便演示,我们直接将初始化数据写死吧
+                //$.get('请求地址', function(md){
+                    testEditor = editormd("test-editormd", {
+                        width: "90%",
+                        height: 740,
+                        path : 'editor.md-master/lib/', //指定lib目录
+						theme : "dark",					//工具栏使用dark主题,默认白色
+                        previewTheme : "dark",			//预览区使用dark主题,默认白色
+                        editorTheme : "pastel-on-dark", //编辑预览区使用dark主题,默认白色
+                        //markdown : md,				//这个参数是请求后台返回的数据,为了方便演示就写死吧,不从后台取了
+						markdown : $("#dateDemo").html(),//获取div中的内容作为初始化数据
+                        codeFold : true,
+                        //syncScrolling : false,
+                        saveHTMLToTextarea : true,   	// 保存 HTML 到 Textarea
+                        searchReplace : true,
+                        //watch : false,                // 关闭实时预览
+                        htmlDecode : "style,script,iframe|on*", // 开启HTML标签解析,为了安全性,默认不开启    
+                        //toolbar  : false,             //关闭工具栏
+                        //previewCodeHighlight : false, //关闭预览HTML的代码块高亮,默认开启
+                        emoji : true,
+                        taskList : true,
+                        tocm            : true,       	// Using [TOCM]
+                        tex : true,                  	// 开启科学公式TeX语言支持，默认关闭
+                        flowChart : true,             	// 开启流程图支持，默认关闭
+                        sequenceDiagram : true,      	// 开启时序/序列图支持，默认关闭,
+                        //dialogLockScreen : false,  	// 设置弹出层对话框不锁屏，全局通用，默认为true
+                        //dialogShowMask : false,    	// 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+                        //dialogDraggable : false,    	// 设置弹出层对话框不可拖动，全局通用，默认为true
+                        //dialogMaskOpacity : 0.4,   	// 设置透明遮罩层的透明度，全局通用，默认值为0.1
+                        //dialogMaskBgColor : "#000",	// 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+                        imageUpload : true,
+                        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                        imageUploadURL : "./file/upload",//文件上传的后台请求地址
+						toolbarIcons : function() {//设置需要的工具图标,这个可以不写使用默认的
+							var tool=["undo", "redo", "|", "bold","del","italic", "quote","ucwords","uppercase","lowercase","|",
+							"h1","h2","h3","h4","h5","h6","|","list-ul","list-ol","hr","|","link","reference-link","image","code",
+							"preformatted-text","code-block","table","datetime","emoji","html-entities","pagebreak","|","goto-line",
+							"watch","preview","fullscreen","clear","search"]
+                        return tool;
+						},
+                        onload : function() {
+                            console.log('onload', this);
+                            //this.fullscreen();
+                            //this.unwatch();
+                            //this.watch().fullscreen();
+
+                            //this.setMarkdown("#PHP");
+                            //this.width("100%");
+                            //this.height(480);
+                            //this.resize("100%", 640);
+                        }
+                    });
+                //});
+				//====================实例化化编辑器结束====================
+                
+				//================== 功能开始=======================
+				//定位到第90行
+                $("#goto-line-btn").bind("click", function(){
+                    testEditor.gotoLine(90);
+                });
+                
+				//显示编辑器
+                $("#show-btn").bind('click', function(){
+                    testEditor.show();
+                });
+                
+				//隐藏编辑器
+                $("#hide-btn").bind('click', function(){
+                    testEditor.hide();
+                });
+                
+				//获取Markdown内容
+                $("#get-md-btn").bind('click', function(){
+                    alert(testEditor.getMarkdown());
+                });
+                
+				//获取HTML内容
+                $("#get-html-btn").bind('click', function() {
+                    alert(testEditor.getHTML());
+                });                
+                
+				//显示在线预览
+                $("#watch-btn").bind('click', function() {
+                    testEditor.watch();
+                });                 
+                
+				//隐藏在线预览
+                $("#unwatch-btn").bind('click', function() {
+                    testEditor.unwatch();
+                });              
+                
+				//预览HTML（按Shift + ESC取消）
+                $("#preview-btn").bind('click', function() {
+                    testEditor.previewing();
+                });
+                
+				//全屏（按ESC取消）
+                $("#fullscreen-btn").bind('click', function() {
+                    testEditor.fullscreen();
+                });
+                
+				//显示工具栏
+                $("#show-toolbar-btn").bind('click', function() {
+                    testEditor.showToolbar();
+                });
+                
+				//隐藏工具栏
+                $("#close-toolbar-btn").bind('click', function() {
+                    testEditor.hideToolbar();
+                });
+                
+                $("#toc-menu-btn").click(function(){
+                    testEditor.config({
+                        tocDropdown   : true,
+                        tocTitle      : "目录 Table of Contents",
+                    });
+                });
+                
+                $("#toc-default-btn").click(function() {
+                    testEditor.config("tocDropdown", false);
+                });
+				//================== 功能结束=======================
+				
+            });
+						
+        </script>
+    </body>
+</html>

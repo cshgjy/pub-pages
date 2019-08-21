@@ -1,0 +1,24 @@
+在editor.md-master\examples目录下有官方的案例
+
+我写的这写案例也是官方文档中的
+===============================================================
+表情图标不显示问题：
+
+在中editormd.js(文件在editor.md-master目录下)文件中配置了表情图标，
+找到入下代码修改，这里本来是链接的远程地址,我已将表情包下载到了本地,
+指定下目录即可，这里需要根据你的项目配置路径，
+如配置了不显示，看看文件路径是不是不对(注意下相对路径绝对路径)
+
+
+  // Emoji graphics files url path
+  editormd.emoji     = {
+        path  : "editor.md-master/plugins/emoji-dialog/emoji/",//emoji表情所在的包路径
+        ext   : ".png" //表情图片的后缀名
+    };
+
+    // Twitter Emoji (Twemoji)  graphics files url path    
+    editormd.twemoji = {
+        path : "http://twemoji.maxcdn.com/36x36/", //twemoji表情所在的包路径
+        ext  : ".png" //表情图片的后缀名
+    };
+==============================================================
